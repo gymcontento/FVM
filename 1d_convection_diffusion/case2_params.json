@@ -1,0 +1,14 @@
+{
+    "x_begin": "0.0",
+    "x_end": "1.0",
+
+    "x_num": "5",
+
+    "density": "1",
+    "velocity": "2.5",
+    "thick": "0.1",
+    "k": "0.1",
+
+    "W_boundary": "1.0",
+    "E_boundary": "0"
+}

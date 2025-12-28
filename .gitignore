@@ -1,2 +1,13 @@
 /.vscode
 /2d_possion/build
+/2d_possion/gauss_seidel_contour_3d.png
+/2d_possion/gauss_seidel_heatmap.png
+/2d_possion/gauss_seidel_results.csv
+
+/1d_convection_diffusion/build
+/1d_convection_diffusion/case1_results.txt
+/1d_convection_diffusion/case2_results.txt
+/1d_convection_diffusion/case3_results.txt
+/1d_convection_diffusion/case4_results.txt
+/1d_convection_diffusion/convection_diffusion_comparison.pdf
+/1d_convection_diffusion/convection_diffusion_comparison.png

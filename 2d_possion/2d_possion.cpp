@@ -346,10 +346,8 @@ void Possion2d::SolvingLinearSystem_GS()
                 T[node] = (b[node] - sum) / A[node][node];
                 
                 // Calculate error (skip boundary nodes as they are fixed)
-                if(A[node][node] != 1.0) {  // Boundary nodes have A[i][i] = 1.0
-                    double error = std::abs(T[node] - T_old);
-                    max_error = std::max(max_error, error);
-                }
+                double error = std::abs(T[node] - T_old);
+                max_error = std::max(max_error, error);
             }
         }
         
@@ -413,4 +411,36 @@ void Possion2d::OutputResults()
     std::cout << "Bottom-right (SE): " << T[x_size - 1] << std::endl;
     std::cout << "Top-left (NW): " << T[(y_size - 1) * x_size] << std::endl;
     std::cout << "Top-right (NE): " << T[y_size * x_size - 1] << std::endl;
+}
+
+void Possion2d::OutputToFile(const std::string& filename)
+{
+    std::ofstream outfile(filename);
+    if (!outfile.is_open()) {
+        std::cerr << "Error: Cannot open file " << filename << " for writing!" << std::endl;
+        return;
+    }
+    
+    // Write header information
+    outfile << "# Temperature field data from 2D Poisson solver" << std::endl;
+    outfile << "# Grid size: " << x_size << " x " << y_size << std::endl;
+    outfile << "# Domain: [" << range[0] << ", " << range[1] << "] x [" << range[0] << ", " << range[1] << "]" << std::endl;
+    outfile << "# Format: x, y, temperature" << std::endl;
+    
+    // Calculate grid spacing
+    double dx = (range[1] - range[0]) / (x_size - 1);
+    double dy = (range[1] - range[0]) / (y_size - 1);
+    
+    // Write temperature data
+    for(int i = 0; i < y_size; ++i) {
+        for(int j = 0; j < x_size; ++j) {
+            int node = i * x_size + j;
+            double x = range[0] + j * dx;
+            double y = range[0] + i * dy;
+            outfile << x << ", " << y << ", " << T[node] << std::endl;
+        }
+    }
+    
+    outfile.close();
+    std::cout << "Temperature data written to " << filename << std::endl;
 }
