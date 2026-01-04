@@ -166,3 +166,8 @@ void StructureMesh::CreateCoeffMeshData()
         cellnum[0], std::vector<std::vector<std::vector<int>>>(cellnum[1],
         std::vector<std::vector<int>>(cellnum[2], std::vector<int>(numcoef, 0))));
 }
+
+void StructureMesh::CreateSimulationData()
+{
+
+}

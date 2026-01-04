@@ -14,6 +14,20 @@ public:
     void CreateFieldMeshData();
     void SetInitialT(float& T);
     void CreateCoeffMeshData();
+    void CreateSimulationData();
+
+    std::vector<int> cellnum_export() {return cellnum;}
+    std::vector<int> nodenum_export() {return nodenum;}
+
+    std::vector<float> xnodes_export() {return x_nodes;}
+    std::vector<float> ynodes_export() {return y_nodes;}
+    std::vector<float> znodes_export() {return z_nodes;}
+
+    std::vector<float> xcells_export() {return x_cells;}
+    std::vector<float> ycells_export() {return y_cells;}
+    std::vector<float> zcells_export() {return z_cells;}
+
+    std::vector<std::vector<std::vector<float>>> tfield_export() {return t;}
 
 private:
     int dim;

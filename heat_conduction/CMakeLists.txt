@@ -6,4 +6,8 @@ project(demo)
 
 include_directories(include)
 
-add_executable(demo src/main.cpp src/structure_mesh.cpp)
+add_executable(demo src/main.cpp 
+                    src/structure_mesh.cpp 
+                    src/postprocess.cpp
+                    src/solver_settings.cpp
+                    src/material_settings.cpp)

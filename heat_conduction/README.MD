@@ -16,3 +16,7 @@ This directory contains code and documentation related to heat conduction simula
 ## 26.1.3
 数据结构：添加了节点坐标、单元中心点坐标、单元尺寸、温度场、有限体积法系数矩阵等数据结构。
 函数：并添加了创建坐标函数、温度场函数、初始化温度函数、有限体积法系数矩阵函数。
+
+## 26.1.4
+类：添加了求解器类、材料类
+函数：提供了初始化求解器参数和材料参数的函数
