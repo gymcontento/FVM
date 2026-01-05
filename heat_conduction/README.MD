@@ -20,3 +20,9 @@ This directory contains code and documentation related to heat conduction simula
 ## 26.1.4
 类：添加了求解器类、材料类
 函数：提供了初始化求解器参数和材料参数的函数
+
+## 26.1.5
+类：添加了边界条件类
+函数：提供了识别单元边界条件的函数
+同时修改了类之间成员变量的调用方式（从赋值改为引用）
+但未运行通过测试

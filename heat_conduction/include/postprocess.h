@@ -1,3 +1,13 @@
+/******************************
+ * Author: gymcontento herry996341591@gmail.com
+ * Date: 2026-01-04 13:21:22
+ * LastEditors: gymcontento herry996341591@gmail.com
+ * LastEditTime: 2026-01-06 00:10:35
+ * FilePath: \FVM\heat_conduction\include\postprocess.h
+ * Description: 
+ * 
+ * Copyright (c) 2026 by ${git_name_email}, All Rights Reserved. 
+ ******************************/
 #ifndef POSTPROCESS_H
 #define POSTPROCESS_H
 #include <string>
@@ -5,18 +15,6 @@
 
 class PostProcess
 {
-private:
-    std::vector<int> cellnum;
-    std::vector<int> nodenum;
-    std::vector<float> x_nodes;
-    std::vector<float> y_nodes;
-    std::vector<float> z_nodes;
-
-    std::vector<float> x_cells;
-    std::vector<float> y_cells;
-    std::vector<float> z_cells;
-
-    std::vector<std::vector<std::vector<float>>> t;
 public:
     void WriteVTKCollocated_temp(
         StructureMesh& mesh,std::string filename = "post_temp.vtk");

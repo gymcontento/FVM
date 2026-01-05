@@ -1,8 +1,18 @@
+/******************************
+ * Author: gymcontento herry996341591@gmail.com
+ * Date: 2026-01-04 23:07:39
+ * LastEditors: gymcontento herry996341591@gmail.com
+ * LastEditTime: 2026-01-06 00:07:04
+ * FilePath: \FVM\heat_conduction\src\material_settings.cpp
+ * Description: 
+ * 
+ * Copyright (c) 2026 by ${git_name_email}, All Rights Reserved. 
+ ******************************/
 #include "material_settings.h"
 
 void MaterialSettings::SetInitialDenstVist(StructureMesh& mesh, float& denst, float& vist)
 {
-    std::vector<int> cellnum = mesh.cellnum_export();
+    const std::vector<int>& cellnum = mesh.cellnum_export();
     density = std::vector<std::vector<std::vector<float>>>(cellnum[0], 
         std::vector<std::vector<float>>(cellnum[1], std::vector<float>(cellnum[2], denst)));
     viscosity = std::vector<std::vector<std::vector<float>>>(cellnum[0], 
@@ -17,7 +27,7 @@ void MaterialSettings::SetCondtSpcHt(float& condt, float& spcHt)
 
 void MaterialSettings::CheckDensityViscosity(StructureMesh& mesh)
 {
-    std::vector<int> cellnum = mesh.cellnum_export();
+    const std::vector<int>& cellnum = mesh.cellnum_export();
     std::cout << "---------Set Initial density---------" << std::endl;
     for(int i=0; i < cellnum[2]; ++i)
     {

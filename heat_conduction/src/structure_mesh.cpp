@@ -162,9 +162,9 @@ void StructureMesh::CreateCoeffMeshData()
     std::cout << "----------Set Coeff----------" << std::endl;
     std::cout << "Num of Coefficient: " << numcoef << std::endl;
 
-    cellcoeff = std::vector<std::vector<std::vector<std::vector<int>>>>(
-        cellnum[0], std::vector<std::vector<std::vector<int>>>(cellnum[1],
-        std::vector<std::vector<int>>(cellnum[2], std::vector<int>(numcoef, 0))));
+    cellcoeff = std::vector<std::vector<std::vector<std::vector<float>>>>(
+        cellnum[0], std::vector<std::vector<std::vector<float>>>(cellnum[1],
+        std::vector<std::vector<float>>(cellnum[2], std::vector<float>(numcoef, 0))));
 }
 
 void StructureMesh::CreateSimulationData()

@@ -1,3 +1,13 @@
+/******************************
+ * Author: gymcontento herry996341591@gmail.com
+ * Date: 2026-01-04 13:28:16
+ * LastEditors: gymcontento herry996341591@gmail.com
+ * LastEditTime: 2026-01-06 00:08:27
+ * FilePath: \FVM\heat_conduction\src\postprocess.cpp
+ * Description: 
+ * 
+ * Copyright (c) 2026 by ${git_name_email}, All Rights Reserved. 
+ ******************************/
 #include "postprocess.h"
 #include <vector>
 #include <fstream>
@@ -5,14 +15,14 @@
 void PostProcess::WriteVTKCollocated_temp(
      StructureMesh& mesh, std::string filename)
 {
-    cellnum = mesh.cellnum_export();
-    nodenum = mesh.nodenum_export();
+    const std::vector<int>& cellnum = mesh.cellnum_export();
+    const std::vector<int>& nodenum = mesh.nodenum_export();
     
-    x_nodes = mesh.xnodes_export();
-    y_nodes = mesh.ynodes_export();
-    z_nodes = mesh.znodes_export();
+    const std::vector<float>& x_nodes = mesh.xnodes_export();
+    const std::vector<float>& y_nodes = mesh.ynodes_export();
+    const std::vector<float>& z_nodes = mesh.znodes_export();
 
-    t = mesh.tfield_export();
+    const std::vector<std::vector<std::vector<float>>>& t = mesh.tfield_export();
 
     std::ofstream vtkFile(filename);
     if(!vtkFile.is_open())
