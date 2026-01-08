@@ -19,14 +19,14 @@ public:
     void SetInitialDenstVist(StructureMesh& mesh, float& denst, float& vist);
     void SetCondtSpcHt(float& condt, float& spcHt);
 
-    std::vector<std::vector<std::vector<float>>> DensityExport() {return density;}
-    std::vector<std::vector<std::vector<float>>> ViscosityExport() {return viscosity;}
+    const std::vector<std::vector<std::vector<float>>>& DensityExport() {return density;}
+    const std::vector<std::vector<std::vector<float>>>& ViscosityExport() {return viscosity;}
 
-    float ConductivityExport() {return conductivity;}
-    float SpecficheatExport() {return specficheat;}
-
-    float HeatSourceExport() {return heat_source;}
-
+    //数据导出函数
+    const float& ConductivityExport() {return conductivity;}
+    const float& SpecficheatExport() {return specficheat;}
+    const float& HeatSourceExport() {return heat_source;}
+    //查看数据函数
     void CheckDensityViscosity(StructureMesh& mesh);
 };
 

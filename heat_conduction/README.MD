@@ -26,3 +26,8 @@ This directory contains code and documentation related to heat conduction simula
 函数：提供了识别单元边界条件的函数
 同时修改了类之间成员变量的调用方式（从赋值改为引用）
 但未运行通过测试
+
+## 26.1.8
+类：添加了组装线性系统类 
+函数：提供了组装线性系统矩阵和向量的函数（未处理边界条件）
+检查了boundary类bcid矩阵的正确性，找到错误，并进行了修改

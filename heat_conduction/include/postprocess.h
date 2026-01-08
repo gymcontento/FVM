@@ -2,7 +2,7 @@
  * Author: gymcontento herry996341591@gmail.com
  * Date: 2026-01-04 13:21:22
  * LastEditors: gymcontento herry996341591@gmail.com
- * LastEditTime: 2026-01-06 00:10:35
+ * LastEditTime: 2026-01-06 23:07:21
  * FilePath: \FVM\heat_conduction\include\postprocess.h
  * Description: 
  * 
@@ -17,9 +17,9 @@ class PostProcess
 {
 public:
     void WriteVTKCollocated_temp(
-        StructureMesh& mesh,std::string filename = "post_temp.vtk");
+        StructureMesh& mesh, std::string filename = "post_temp.vtk");
     
-
+    void SetOuputFreq(const int res_freq, const int );
 };
 
 #endif

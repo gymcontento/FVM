@@ -16,7 +16,8 @@ public:
     void CreateCoeffMeshData();
     void CreateSimulationData();
 
-    int dim_export() {return dim;}
+    //Display Info
+    const int& dim_export() {return dim;}
     const std::vector<int>& cellnum_export() {return cellnum;}
     const std::vector<int>& nodenum_export() {return nodenum;}
     const std::vector<std::vector<float>>& range_export() {return range;}
@@ -29,8 +30,18 @@ public:
     const std::vector<float>& ycells_export() {return y_cells;}
     const std::vector<float>& zcells_export() {return z_cells;}
 
-    std::vector<std::vector<std::vector<float>>> tfield_export() {return t;}
+    const float& dx_export() {return dx;};
+    const float& dy_export() {return dy;};
+    const float& dz_export() {return dz;};
 
+    const std::vector<std::vector<std::vector<float>>>& tfield_export() {return t;}
+    const std::vector<std::vector<std::vector<float>>>& uffield_export() {return uf;}
+    const std::vector<std::vector<std::vector<float>>>& vffield_export() {return vf;}
+    const std::vector<std::vector<std::vector<float>>>& wffield_export() {return wf;}
+
+    std::vector<std::vector<std::vector<std::vector<float>>>> cellcoeff;
+    int id_aP, id_aE, id_aW, id_aN, id_aS, id_aT, id_aB, id_bsrc;
+    int numcoef;
 private:
     int dim;
     std::vector<int> cellnum{0,0,0};
@@ -51,12 +62,12 @@ private:
     float dy;
     float dz;
 
+    //温度场和速度场（单元界面）
     std::vector<std::vector<std::vector<float>>> t;
     std::vector<std::vector<std::vector<float>>> t0;
-
-    int numcoef;
-    int id_ap, id_ae, id_aw, id_an, id_as, id_aT, id_aB, id_bsrc;
-    std::vector<std::vector<std::vector<std::vector<float>>>> cellcoeff;
+    std::vector<std::vector<std::vector<float>>> uf;
+    std::vector<std::vector<std::vector<float>>> vf;
+    std::vector<std::vector<std::vector<float>>> wf;  
 };
 
 #endif

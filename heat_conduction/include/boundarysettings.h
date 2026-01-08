@@ -1,3 +1,13 @@
+/******************************
+ * Author: gymcontento herry996341591@gmail.com
+ * Date: 2026-01-05 19:24:41
+ * LastEditors: gymcontento herry996341591@gmail.com
+ * LastEditTime: 2026-01-08 22:59:32
+ * FilePath: \FVM\heat_conduction\include\boundarysettings.h
+ * Description: 
+ * 
+ * Copyright (c) 2026 by ${git_name_email}, All Rights Reserved. 
+ ******************************/
 #ifndef BOUNDARYSETTINGS_H
 #define BOUNDARYSETTINGS_H
 #include <vector>
@@ -5,9 +15,34 @@
 
 class BoundarySettings
 {
-private:
-    // None, Wall, Inlet, Outlet
-    int btype{0};
+public:
+    struct temp
+    {
+        int bc_t_type = 0;
+        float t_dirichlet = 0.0f;
+        float t_neumann = 0.0f;
+    };
+
+    void SetBcFacesForCells(StructureMesh& mesh);
+    void SetPhysicalBoundary(StructureMesh& mesh,
+                            const std::string& bc_xmin,
+                            const std::string& bc_xmax,
+                            const std::string& bc_ymin,
+                            const std::string& bc_ymax,
+                            const std::string& bc_zmin,
+                            const std::string& bc_zmax);
+    void SetNumericalBoundary(StructureMesh& mesh,
+                            std::string& xmin_type, float& xmin_value,
+                            std::string& xmax_type, float& xmax_value,
+                            std::string& ymin_type, float& ymin_value,
+                            std::string& ymax_type, float& ymax_value,
+                            std::string& zmin_type, float& zmin_value,
+                            std::string& zmax_type, float& zmax_value);
+    
+    void DisplayFluidType();
+    
+    //输出
+    const std::vector<int>& BcPhysicsExport() {return bc_physics;}
 
     //初始化各个数据
     //每个网格的面，二维有四个面，三维有六个面，为这些面编号
@@ -18,7 +53,12 @@ private:
     int fid_t = 4;
     int fid_b = 5;
 
+private:
+    // None, Wall, Inlet, Outlet
+    int btype{0}; 
+
     //物理边界条件类型，进出口和壁面以及空。这里的空指的是网格在计算域内部，所有的边都不和边界边相接触
+    std::vector<int> bc_physics;
     int bc_none   = 0;
     int bc_wall   = 1;
     int bc_inlet  = 2;
@@ -34,6 +74,9 @@ private:
     int bcid_zmin   = 5;
     int bcid_zmax   = 6;
     int num_bcs = 7;     //这样类型的个数
+
+    //温度边界条件设置
+    std::vector<temp> bc_temp; 
 
     //一个单元的边界条件类型和取值
     std::vector<int> bc_type_ocell;
@@ -55,10 +98,6 @@ private:
     int t_btype{0};
     float dirichlet_t{0.0f};
     float neumann_t{0.0f};
-public:
-    void SetBcFacesForCells(StructureMesh& mesh);
-
-
 };
 
 #endif

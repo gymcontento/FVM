@@ -103,7 +103,12 @@ void StructureMesh::CreateFieldMeshData()
         std::vector<std::vector<float>>(cellnum[1], std::vector<float>(cellnum[2], 0.0f)));
     t0 = std::vector<std::vector<std::vector<float>>>(cellnum[0], 
         std::vector<std::vector<float>>(cellnum[1], std::vector<float>(cellnum[2], 0.0f)));
-    
+    uf = std::vector<std::vector<std::vector<float>>>(nodenum[0], 
+        std::vector<std::vector<float>>(cellnum[1], std::vector<float>(cellnum[2], 0.0f)));
+    vf = std::vector<std::vector<std::vector<float>>>(cellnum[0], 
+        std::vector<std::vector<float>>(nodenum[1], std::vector<float>(cellnum[2], 0.0f)));
+    wf = std::vector<std::vector<std::vector<float>>>(cellnum[0], 
+        std::vector<std::vector<float>>(cellnum[1], std::vector<float>(nodenum[2], 0.0f)));
     std::cout << "---------Create Field Data---------" << std::endl;
     for(int i=0; i < cellnum[2]; ++i)
     {
@@ -148,12 +153,12 @@ void StructureMesh::CreateCoeffMeshData()
     }
 
     // Coefficient storage positions in four dimensional array
-    id_ap = 0;
-    id_ae = 1;
-    id_aw = 2;
-    id_an = 3;
-    id_as = 4;
-    if(dim == 3){
+    id_aP = 0;
+    id_aE = 1;
+    id_aW = 2;
+    id_aN = 3;
+    id_aS = 4;
+    if(dim == 3){ 
         id_aT = 5;
         id_aB = 6;
     }
@@ -164,7 +169,7 @@ void StructureMesh::CreateCoeffMeshData()
 
     cellcoeff = std::vector<std::vector<std::vector<std::vector<float>>>>(
         cellnum[0], std::vector<std::vector<std::vector<float>>>(cellnum[1],
-        std::vector<std::vector<float>>(cellnum[2], std::vector<float>(numcoef, 0))));
+        std::vector<std::vector<float>>(cellnum[2], std::vector<float>(numcoef, 0.0f))));
 }
 
 void StructureMesh::CreateSimulationData()
