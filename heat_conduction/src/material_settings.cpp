@@ -2,7 +2,7 @@
  * Author: gymcontento herry996341591@gmail.com
  * Date: 2026-01-04 23:07:39
  * LastEditors: gymcontento herry996341591@gmail.com
- * LastEditTime: 2026-01-06 00:07:04
+ * LastEditTime: 2026-01-11 17:00:41
  * FilePath: \FVM\heat_conduction\src\material_settings.cpp
  * Description: 
  * 
@@ -28,29 +28,29 @@ void MaterialSettings::SetCondtSpcHt(float& condt, float& spcHt)
 void MaterialSettings::CheckDensityViscosity(StructureMesh& mesh)
 {
     const std::vector<int>& cellnum = mesh.cellnum_export();
-    std::cout << "---------Set Initial density---------" << std::endl;
-    for(int i=0; i < cellnum[2]; ++i)
-    {
-        for(int j=0; j < cellnum[1]; ++j)
-        {
-            for(int k=0; k < cellnum[0]; ++k)
-            {
-                std::cout << density[k][j][i] << "\t";
-            }
-            std::cout << std::endl;
-        }
-    }
-    std::cout << std::endl;
-    std::cout << "---------Set Initial viscosity---------" << std::endl;
-    for(int i=0; i < cellnum[2]; ++i)
-    {
-        for(int j=0; j < cellnum[1]; ++j)
-        {
-            for(int k=0; k < cellnum[0]; ++k)
-            {
-                std::cout << viscosity[k][j][i] << "\t";
-            }
-            std::cout << std::endl;
-        }
-    }
+    // std::cout << "---------Set Initial density---------" << std::endl;
+    // for(int i=0; i < cellnum[2]; ++i)
+    // {
+    //     for(int j=0; j < cellnum[1]; ++j)
+    //     {
+    //         for(int k=0; k < cellnum[0]; ++k)
+    //         {
+    //             std::cout << density[k][j][i] << "\t";
+    //         }
+    //         std::cout << std::endl;
+    //     }
+    // }
+    // std::cout << std::endl;
+    // std::cout << "---------Set Initial viscosity---------" << std::endl;
+    // for(int i=0; i < cellnum[2]; ++i)
+    // {
+    //     for(int j=0; j < cellnum[1]; ++j)
+    //     {
+    //         for(int k=0; k < cellnum[0]; ++k)
+    //         {
+    //             std::cout << viscosity[k][j][i] << "\t";
+    //         }
+    //         std::cout << std::endl;
+    //     }
+    // }
 }

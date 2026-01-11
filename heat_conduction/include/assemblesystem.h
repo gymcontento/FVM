@@ -2,7 +2,7 @@
  * Author: gymcontento herry996341591@gmail.com
  * Date: 2026-01-07 23:19:21
  * LastEditors: gymcontento herry996341591@gmail.com
- * LastEditTime: 2026-01-07 23:47:09
+ * LastEditTime: 2026-01-11 17:08:54
  * FilePath: \FVM\heat_conduction\include\assemblesystem.h
  * Description: 
  * 
@@ -18,7 +18,7 @@
 class AssembleSystem
 {
 public:
-    void ConductionCoefs(StructureMesh& mesh, SolverSettings& solver,
+    void ConductionCoefs(StructureMesh& mesh, SolverSettings& solversettings,
                         MaterialSettings& material);
     void ConductionCoefsBoud(StructureMesh& mesh, MaterialSettings& material,
                             BoundarySettings& boundary);

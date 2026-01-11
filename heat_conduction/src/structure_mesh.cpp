@@ -77,24 +77,24 @@ void StructureMesh::CreateCoordinates(std::vector<std::vector<float>>& irange)
     std::cout <<"xmin, xmax: " << range[0][0] << ", " << range[0][1] << std::endl;
     std::cout <<"ymin, ymax: " << range[1][0] << ", " << range[1][1] << std::endl;
     std::cout <<"zmin, zmax: " << range[2][0] << ", " << range[2][1] << std::endl;
-    std::cout << "X coordinates: " << std::endl;
-    for(int i=0; i < nodenum[0]; ++i)
-    {
-        std::cout << x_nodes[i] << "\t";
-    }
-    std::cout << std::endl;
-    std::cout << "Y coordinates: " << std::endl;
-    for(int i=0; i < nodenum[1]; ++i)
-    {
-        std::cout << y_nodes[i] << "\t";
-    }
-    std::cout << std::endl;
-    std::cout << "Z coordinates: " << std::endl;
-    for(int i=0; i < nodenum[2]; ++i)
-    {
-        std::cout << z_nodes[i] << "\t";
-    }
-    std::cout << std::endl;
+    // std::cout << "X coordinates: " << std::endl;
+    // for(int i=0; i < nodenum[0]; ++i)
+    // {
+    //     std::cout << x_nodes[i] << "\t";
+    // }
+    // std::cout << std::endl;
+    // std::cout << "Y coordinates: " << std::endl;
+    // for(int i=0; i < nodenum[1]; ++i)
+    // {
+    //     std::cout << y_nodes[i] << "\t";
+    // }
+    // std::cout << std::endl;
+    // std::cout << "Z coordinates: " << std::endl;
+    // for(int i=0; i < nodenum[2]; ++i)
+    // {
+    //     std::cout << z_nodes[i] << "\t";
+    // }
+    // std::cout << std::endl;
 }
 
 void StructureMesh::CreateFieldMeshData()
@@ -109,36 +109,36 @@ void StructureMesh::CreateFieldMeshData()
         std::vector<std::vector<float>>(nodenum[1], std::vector<float>(cellnum[2], 0.0f)));
     wf = std::vector<std::vector<std::vector<float>>>(cellnum[0], 
         std::vector<std::vector<float>>(cellnum[1], std::vector<float>(nodenum[2], 0.0f)));
-    std::cout << "---------Create Field Data---------" << std::endl;
-    for(int i=0; i < cellnum[2]; ++i)
-    {
-        for(int j=0; j < cellnum[1]; ++j)
-        {
-            for(int k=0; k < cellnum[0]; ++k)
-            {
-                std::cout << t[k][j][i] << "\t";
-            }
-            std::cout << std::endl;
-        }
-    }
+    // std::cout << "---------Create Field Data---------" << std::endl;
+    // for(int i=0; i < cellnum[2]; ++i)
+    // {
+    //     for(int j=0; j < cellnum[1]; ++j)
+    //     {
+    //         for(int k=0; k < cellnum[0]; ++k)
+    //         {
+    //             std::cout << t[k][j][i] << "\t";
+    //         }
+    //         std::cout << std::endl;
+    //     }
+    // }
 }
 
 void StructureMesh::SetInitialT(float& T)
 {
     t = std::vector<std::vector<std::vector<float>>>(cellnum[0], 
         std::vector<std::vector<float>>(cellnum[1], std::vector<float>(cellnum[2], T)));
-    std::cout << "---------Set Initial T---------" << std::endl;
-    for(int i=0; i < cellnum[2]; ++i)
-    {
-        for(int j=0; j < cellnum[1]; ++j)
-        {
-            for(int k=0; k < cellnum[0]; ++k)
-            {
-                std::cout << t[k][j][i] << "\t";
-            }
-            std::cout << std::endl;
-        }
-    }
+    // std::cout << "---------Set Initial T---------" << std::endl;
+    // for(int i=0; i < cellnum[2]; ++i)
+    // {
+    //     for(int j=0; j < cellnum[1]; ++j)
+    //     {
+    //         for(int k=0; k < cellnum[0]; ++k)
+    //         {
+    //             std::cout << t[k][j][i] << "\t";
+    //         }
+    //         std::cout << std::endl;
+    //     }
+    // }
 }
 
 void StructureMesh::CreateCoeffMeshData()

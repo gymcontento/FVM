@@ -2,7 +2,7 @@
  * Author: gymcontento herry996341591@gmail.com
  * Date: 2026-01-03 00:35:43
  * LastEditors: gymcontento herry996341591@gmail.com
- * LastEditTime: 2026-01-08 15:02:48
+ * LastEditTime: 2026-01-11 17:02:14
  * FilePath: \FVM\heat_conduction\src\main.cpp
  * Description: 
  * 
@@ -15,10 +15,13 @@
 #include "boundarysettings.h"
 #include "kernel.h"
 #include "assemblesystem.h"
+#include "solver.h"
 #include <ctime>
 #include <vector>
 #include <iomanip>
 #include <map>
+#include <fstream>
+#include <chrono> 
 
 
 int main(){
@@ -26,9 +29,9 @@ int main(){
 
     //设置网格参数
     int dim = 2;
-    std::vector<int> cellnums{4,3,1};
+    std::vector<int> cellnums{32,32,1};
     std::vector<std::vector<float>> range = {
-        {0.0f, 0.833f}, {0.0f, 0.833f}, {0.0f, 1.0f}};
+        {0.0f, 0.833f}, {0.0f, 0.83f}, {0.0f, 1.0f}};
     float initalT = 373.0f;
     
     StructureMesh case1;
@@ -39,16 +42,18 @@ int main(){
     case1.CreateCoeffMeshData();
 
     //求解参数设置
+    std::string eqn_type = "conduction";
     int nlin_steps = 2000;          //非线性求解次数
     float nlinsol_residual = 1.e-6f;        // 非线性迭代的收敛误差判定值
-    int t_iter_nums = 100;           // 温度线性求解器迭代次数
+    int t_iter_nums = 1000;           // 温度线性求解器迭代次数
     float relax_coef = 0.75f;          // 松弛因子
     float linsol_residual_t = 0.1f;             // 线性求解器迭代的收敛误差判定值
-    SolverSettings solver;
-    solver.SetIterNums(nlin_steps);
-    solver.SetThermalSolverParam(t_iter_nums, relax_coef,
+    SolverSettings solversettings;
+    solversettings.SetEqnType(eqn_type);
+    solversettings.SetIterNums(nlin_steps);
+    solversettings.SetThermalSolverParam(t_iter_nums, relax_coef,
          linsol_residual_t, nlinsol_residual);
-    solver.CheckSolverSettings();
+    solversettings.CheckSolverSettings();
     
     //材料参数设置
     float density{1.0f};
@@ -62,10 +67,11 @@ int main(){
 
     //边界条件设置
     //fluid: inlet, wall, outlet
-    std::vector<std::string> physical_bc_type{"inlet","wall","inlet","wall","wall","inlet"};
+    //xmin xmax ymin ymax zmin zmax
+    std::vector<std::string> physical_bc_type{"wall","wall","wall","wall","wall","inlet"};
     //temp: constant heat_flux
     std::vector<std::string> numerical_bc_type{"constant","constant","constant","constant","constant","constant"};
-    std::vector<float> numerical_bc_value{0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+    std::vector<float> numerical_bc_value{373.0f, 373.0f, 373.0f, 293.0f, 0.0f, 0.0f};
     BoundarySettings boundary;
     boundary.SetBcFacesForCells(case1);
     boundary.SetPhysicalBoundary(case1, physical_bc_type[0], physical_bc_type[1], physical_bc_type[2],
@@ -78,31 +84,129 @@ int main(){
                                 numerical_bc_type[5], numerical_bc_value[5]);
     boundary.DisplayFluidType();                            
 
-    //后处理
-    PostProcess temp1;
-    temp1.WriteVTKCollocated_temp(case1);
-
-    //输出设置
+    //后处理 残差输出频率，vtk文件输出频率
     int res_freq = 2;
+    int out_freq = 1000;
+    PostProcess post;
+    post.SetOuputFreq(res_freq, out_freq);
+    post.WriteVTKCollocated_temp(case1);
+    //输出文件
+    std::string& nonlinsol_fname = post.nonlinsol_fname;
+    std::string& linsol_fname = post.linsol_fname;
+
+    // Open nonlinear residual file (写入模式，会覆盖已有文件)
+    std::ofstream nonlinsol_fid(nonlinsol_fname);
+    nonlinsol_fid << "#it, walltime, l2_t/l2_max_t\n";
+    nonlinsol_fid.close();
+
+    // Open linear residual file (写入模式，会覆盖已有文件)
+    std::ofstream linsol_fid(linsol_fname);
+    linsol_fid << "#it_nl, it, tot_it, norm, init, max, rel\n";
+    linsol_fid.close();
+
 
     //开始仿真
-    // for(int i=1; i < nlin_steps+1; ++i)
-    // {
-        
-    // }
-    // {
-    //     if(i % 2 == 0 || i == 1 || i == nlin_steps)
-    //     {
-    //         std::cout << "\n";
-    //         std::cout << "----------------------------" << "\n";
-    //         std::cout << "Begin iter = " << i << "\n";
-    //         std::cout << "----------------------------" << "\n";
-    //     }
-    //     case1.
-    // }
-
     AssembleSystem linearsystem;
-    linearsystem.ConductionCoefs(case1,solver,material);
+    Solver solver;
+
+    //求解 
+    //外层循环为时间循环，每次都会重新组装矩阵，因为系数和源项有可能随着场量的变化而变化（因此是非线性）
+    //内存循环组装线性系统，并进行求解
+    for(int i=1; i < nlin_steps+1; ++i)
+    {
+        if(i % 2 == 0 || i == 1 || i == nlin_steps)
+        {
+            std::cout << "\n";
+            std::cout << "----------------------------" << "\n";
+            std::cout << "Begin iter = " << i << "\n";
+            std::cout << "----------------------------" << "\n";
+        }
+
+        if(solversettings.eqn_type == solversettings.eqn_type_conduct){
+            case1.t0 = case1.t; //t0为了计算范数做准备
+            //计算温度方程coefs
+            linearsystem.ConductionCoefs(case1,solversettings,material);
+            //对网格的边界类型做处理，修改coefs
+            linearsystem.ConductionCoefsBoud(case1, material, boundary);
+            
+            //进行雅克比迭代
+            solver.JacobiIteraMethod(i, case1, post, solversettings);
+
+            //将原来的值更新，这个结果与非线性迭代的收敛误差判定值对比
+            std::vector<float> l2_para = solver.CalScalarNorm2(case1, solversettings, "temp");
+            solversettings.l2_t = l2_para[0];
+            solversettings.l2_max_t = l2_para[1];
+    
+            //如果满足条件就令stop_sim为真，程序将在主文件那里跳出迭代循环
+            if(solversettings.l2_t / solversettings.l2_max_t < solversettings.nlinsol_residual){
+                solver.stop_sim = true;
+                std::cout << std::endl;
+                std::cout << "----------------------------" << std::endl;
+                std::cout << "Final iter = " << i << std::endl;
+                std::cout << "it, l2_t/l2_max_t " << i << " " << solversettings.l2_t / solversettings.l2_max_t << std::endl;
+                std::cout << "----------------------------" << std::endl;
+            }
+        }
+        
+        if(i % post.OutfreqExport() == 0 || i == nlin_steps || solver.stop_sim){
+            post.WriteVTKCollocated_temp(case1);
+        }
+
+        if (i == 1 || i % post.ResfreqExport() == 0 || i == nlin_steps || solver.stop_sim) {
+            // 计算运行时间（从clock_begin到现在）
+            clock_t current = clock();
+            double duration_time = double(current - start) / CLOCKS_PER_SEC;
+            
+            // 输出到控制台
+            std::cout << "it, walltime, l2_t/l2_max_t " << i << " " << duration_time << " " << solversettings.l2_t / solversettings.l2_max_t << std::endl;
+            
+            // 以追加模式打开文件并写入
+            std::ofstream nonlinsol_fid(post.nonlinsol_fname, std::ios::app);
+            if (nonlinsol_fid.is_open()) {
+                nonlinsol_fid << i << " " << duration_time << " " << solversettings.l2_t / solversettings.l2_max_t << "\n";
+                nonlinsol_fid.close();
+            } else {
+                std::cerr << "Error: Unable to open file " << post.nonlinsol_fname << std::endl;
+            }
+        }
+
+        if(solver.stop_sim == true){
+            break;
+        }
+    }
+
+    const auto& ycell = case1.ycells_export();
+    const auto& xcell = case1.xcells_export();
+    std::ofstream _ofs("temp_yline.dat");
+    
+    // 找到x=0.5对应的索引
+    int t_x_mid = 0;
+    float x_target = 0.5f;
+    float min_dist = std::abs(xcell[0] - x_target);
+    for(int i=0; i < cellnums[0]; ++i){
+        float dist = std::abs(xcell[i] - x_target);
+        if(dist < min_dist){
+            min_dist = dist;
+            t_x_mid = i;
+        }
+    }
+    
+    // 找到x=0.0833对应的索引（对应Python的提取方式）
+    int t_x_near_xmin = 0;
+    x_target = 0.0833f;
+    min_dist = std::abs(xcell[0] - x_target);
+    for(int i=0; i < cellnums[0]; ++i){
+        float dist = std::abs(xcell[i] - x_target);
+        if(dist < min_dist){
+            min_dist = dist;
+            t_x_near_xmin = i;
+        }
+    }
+    
+    for(int i=0; i < cellnums[1]; ++i){
+        _ofs << ycell[i] << " " << case1.t[t_x_near_xmin][i][0] << " " << case1.t[t_x_mid][i][0] << "\n";
+    }
+    _ofs.close();
 
     clock_t end = clock();
     double duration = double(end - start) / CLOCKS_PER_SEC;

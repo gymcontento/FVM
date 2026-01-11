@@ -1,5 +1,6 @@
 #ifndef SOLVER_SETTINGS_H
 #define SOLVER_SETTINGS_H
+#include <string>
 
 class SolverSettings
 {
@@ -37,6 +38,7 @@ public:
     //线性迭代的总次数
     int linsol_iters_nums{0};
 
+    void SetEqnType(std::string& eqntype);
     void SetIterNums(int& steps);
     void SetTimeStep(float& timestep);
     void SetThermalSolverParam(int& t_iter_nums_s, float& relax_coef_s, 

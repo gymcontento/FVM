@@ -13,4 +13,5 @@ add_executable(demo src/main.cpp
                     src/material_settings.cpp
                     src/boundarysettings.cpp
                     src/kernel.cpp
-                    src/assemblesystem.cpp)
+                    src/assemblesystem.cpp
+                    src/solver.cpp)

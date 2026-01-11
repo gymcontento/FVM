@@ -2,7 +2,7 @@
  * Author: gymcontento herry996341591@gmail.com
  * Date: 2026-01-05 19:24:41
  * LastEditors: gymcontento herry996341591@gmail.com
- * LastEditTime: 2026-01-08 22:59:32
+ * LastEditTime: 2026-01-09 11:51:15
  * FilePath: \FVM\heat_conduction\include\boundarysettings.h
  * Description: 
  * 
@@ -43,6 +43,8 @@ public:
     
     //输出
     const std::vector<int>& BcPhysicsExport() {return bc_physics;}
+    const std::vector<std::vector<std::vector<std::vector<int>>>>& BcidExport() {return bcid;}
+    const std::vector<temp>& BcTempExport() {return bc_temp;}
 
     //初始化各个数据
     //每个网格的面，二维有四个面，三维有六个面，为这些面编号

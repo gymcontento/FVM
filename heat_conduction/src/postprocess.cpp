@@ -81,3 +81,9 @@ void PostProcess::WriteVTKCollocated_temp(
     vtkFile.close();
     std::cout << "VTK file written: " << filename << std::endl;
 }
+
+void PostProcess::SetOuputFreq(const int &res_freq, const int &out_freq)
+{
+    resfreq = res_freq;
+    outfreq = out_freq;
+}

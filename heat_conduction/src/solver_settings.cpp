@@ -2,7 +2,7 @@
  * Author: gymcontento herry996341591@gmail.com
  * Date: 2026-01-04 22:46:57
  * LastEditors: gymcontento herry996341591@gmail.com
- * LastEditTime: 2026-01-04 23:37:10
+ * LastEditTime: 2026-01-10 10:48:41
  * FilePath: \FVM\heat_conduction\src\solver_settings.cpp
  * Description: 
  * 
@@ -11,7 +11,18 @@
 #include "solver_settings.h"
 #include <iostream>
 
-void SolverSettings::SetIterNums(int& steps)
+void SolverSettings::SetEqnType(std::string& eqntype)
+{
+    if(eqntype == "conduction"){
+        eqn_type = 0;
+    }else if(eqntype == "flow"){
+        eqn_type = 1;
+    }else if(eqntype == "conduction_flow"){
+        eqn_type = 2;
+    }
+}
+
+void SolverSettings::SetIterNums(int &steps)
 {
     nlinsol_iter_steps = steps;
 }

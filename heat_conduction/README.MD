@@ -2,7 +2,7 @@
  * @Author: gymcontento herry996341591@gmail.com
  * @Date: 2026-01-03 01:35:49
  * @LastEditors: gymcontento herry996341591@gmail.com
- * @LastEditTime: 2026-01-04 00:01:08
+ * @LastEditTime: 2026-01-11 17:12:44
  * @FilePath: \FVM\heat_conduction\README.MD
  * @Description: 
  * 
@@ -31,3 +31,10 @@ This directory contains code and documentation related to heat conduction simula
 类：添加了组装线性系统类 
 函数：提供了组装线性系统矩阵和向量的函数（未处理边界条件）
 检查了boundary类bcid矩阵的正确性，找到错误，并进行了修改
+
+## 26.1.11
+类：添加了求解类-雅可比迭代法
+函数：提供了雅可比迭代法求解线性系统的函数
+测试：完成了热传导问题的完整测试，验证了程序的正确性
+对比了https://www.theseus-fe.com/resources/validations/basic-heat-transfer 2D conduction in rectangular plate的解析解，在0.0833处和0.5处的结果一致
+添加了.plot文件，程序会生成数据，可以使用gnuplot打开plot文件对比数值解和解析解
