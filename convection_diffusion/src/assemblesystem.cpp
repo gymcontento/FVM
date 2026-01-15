@@ -2,8 +2,8 @@
  * Author: gymcontento herry996341591@gmail.com
  * Date: 2026-01-07 23:45:38
  * LastEditors: gymcontento herry996341591@gmail.com
- * LastEditTime: 2026-01-15 14:30:14
- * FilePath: \FVM\heat_conduction\src\assemblesystem.cpp
+ * LastEditTime: 2026-01-15 20:52:21
+ * FilePath: \convection_diffusion\src\assemblesystem.cpp
  * Description: 
  * 
  * Copyright (c) 2026 by ${git_name_email}, All Rights Reserved. 
@@ -21,7 +21,6 @@ void AssembleSystem::ConductionCoefs(StructureMesh &mesh, SolverSettings &solver
     const auto& dx = mesh.dx_export();
     const auto& dy = mesh.dy_export();
     const auto& dz = mesh.dz_export();
-    std::cout << "dx: " << dx << " dy: " << dy << " dz: " << dz << "\n";
     std::vector<float> area_vol = inport_kernel.CalcuAreaVolume(dx, dy, dz);
 
     //材料参数
@@ -46,6 +45,7 @@ void AssembleSystem::ConductionCoefs(StructureMesh &mesh, SolverSettings &solver
 
     //求解参数
     float idt = 1.0f / solversettings.dt;
+    int conv_scheme = solversettings.conv_scheme;
 
     // Coefficient storage positions in four dimensional array
     int& id_aP = mesh.id_aP;
@@ -90,7 +90,7 @@ void AssembleSystem::ConductionCoefs(StructureMesh &mesh, SolverSettings &solver
                 left_cond = conductivity;
                 ul = uf[i+1][j][k];
                 ur = uf[i+1][j][k];
-                aE = inport_kernel.CalCoefA(area_vol[0], dx, ul, ur, right_cond, left_cond, rho, -1.0f); 
+                aE = inport_kernel.CalCoefA(conv_scheme, area_vol[0], dx, ul, ur, right_cond, left_cond, rho, -1.0f); 
 
                 //西方向的面(密度场插值，边界上不需要)
                 if(i == 0)
@@ -104,7 +104,7 @@ void AssembleSystem::ConductionCoefs(StructureMesh &mesh, SolverSettings &solver
                 left_cond = conductivity;
                 ul = uf[i][j][k];
                 ur = uf[i][j][k];
-                aW = inport_kernel.CalCoefA(area_vol[0], dx, ul, ur, right_cond, left_cond, rho, 1.0f); 
+                aW = inport_kernel.CalCoefA(conv_scheme, area_vol[0], dx, ul, ur, right_cond, left_cond, rho, 1.0f); 
                 
                 //北方向的面(密度场插值，边界上不需要)
                 if(j == cellnum[1]-1)
@@ -118,7 +118,7 @@ void AssembleSystem::ConductionCoefs(StructureMesh &mesh, SolverSettings &solver
                 left_cond = conductivity;
                 vl = vf[i][j+1][k];
                 vr = vf[i][j+1][k];
-                aN = inport_kernel.CalCoefA(area_vol[1], dy, vl, vr, right_cond, left_cond, rho, -1.0f);
+                aN = inport_kernel.CalCoefA(conv_scheme, area_vol[1], dy, vl, vr, right_cond, left_cond, rho, -1.0f);
 
                 //南方向的面(密度场插值，边界上不需要)
                 if(j == 0)
@@ -132,7 +132,7 @@ void AssembleSystem::ConductionCoefs(StructureMesh &mesh, SolverSettings &solver
                 left_cond = conductivity;
                 vl = vf[i][j][k];
                 vr = vf[i][j][k];
-                aS = inport_kernel.CalCoefA(area_vol[1], dy, vl, vr, right_cond, left_cond, rho, 1.0f);
+                aS = inport_kernel.CalCoefA(conv_scheme, area_vol[1], dy, vl, vr, right_cond, left_cond, rho, 1.0f);
 
                 if(dim == 3)
                 {
@@ -148,7 +148,7 @@ void AssembleSystem::ConductionCoefs(StructureMesh &mesh, SolverSettings &solver
                     left_cond = conductivity;
                     wl = wf[i][j][k+1];
                     wr = wf[i][j][k+1];
-                    aT = inport_kernel.CalCoefA(area_vol[2], dz, wl, wr, right_cond, left_cond, rho, -1.0f); 
+                    aT = inport_kernel.CalCoefA(conv_scheme, area_vol[2], dz, wl, wr, right_cond, left_cond, rho, -1.0f); 
 
                     //底面(密度场插值，边界上不需要)
                     if(k == 0)
@@ -162,7 +162,7 @@ void AssembleSystem::ConductionCoefs(StructureMesh &mesh, SolverSettings &solver
                     left_cond = conductivity;
                     wl = wf[i][j][k];
                     wr = wf[i][j][k];
-                    aB = inport_kernel.CalCoefA(area_vol[2], dz, wl, wr, right_cond, left_cond, rho, 1.0f); 
+                    aB = inport_kernel.CalCoefA(conv_scheme, area_vol[2], dz, wl, wr, right_cond, left_cond, rho, 1.0f); 
                 }
                 // 对density进行更新
                 rho = density[i][j][k];
@@ -416,6 +416,41 @@ void AssembleSystem::ConductionCoefsBoud(StructureMesh &mesh, MaterialSettings &
                         }
                     }
                 }
+            }
+        }
+    }
+
+    // Forced cell-centered boundary conditions for 红宝书的例子，例子见书上Fig. 11.7
+    for(int k=0; k < cellnum[2]; ++k)
+    {
+        for(int j=0; j < cellnum[1]; ++j)
+        {
+            for(int i=0; i < cellnum[0]; ++i)
+            {
+                if(i == 0){
+                    mesh.cellcoeff[i][j][k][id_aP] = 1.0f;
+                    mesh.cellcoeff[i][j][k][id_aE] = 0.0f;
+                    mesh.cellcoeff[i][j][k][id_aW] = 0.0f;
+                    mesh.cellcoeff[i][j][k][id_aN] = 0.0f;
+                    mesh.cellcoeff[i][j][k][id_aS] = 0.0f;
+                    if(dim == 3){
+                        mesh.cellcoeff[i][j][k][id_aT] = 0.0f;
+                        mesh.cellcoeff[i][j][k][id_aB] = 0.0f;
+                    }
+                    mesh.cellcoeff[i][j][k][id_bsrc] = bc_temp[bcid_w].t_dirichlet;
+                }else if(i == cellnum[0]-1){
+                    mesh.cellcoeff[i][j][k][id_aP] = 1.0f;
+                    mesh.cellcoeff[i][j][k][id_aE] = 0.0f;
+                    mesh.cellcoeff[i][j][k][id_aW] = 0.0f;
+                    mesh.cellcoeff[i][j][k][id_aN] = 0.0f;
+                    mesh.cellcoeff[i][j][k][id_aS] = 0.0f;
+                    if(dim == 3){
+                        mesh.cellcoeff[i][j][k][id_aT] = 0.0f;
+                        mesh.cellcoeff[i][j][k][id_aB] = 0.0f;
+                    }
+                    mesh.cellcoeff[i][j][k][id_bsrc] = bc_temp[bcid_e].t_dirichlet;
+                }
+                
             }
         }
     }

@@ -45,3 +45,8 @@
 #### 测试：完成了热传导问题的完整测试，验证了程序的正确性
 对比了https://www.theseus-fe.com/resources/validations/basic-heat-transfer 2D conduction in rectangular plate的解析解，在0.0833处和0.5处的结果一致
 #### 添加了.plot文件，程序会生成数据，可以使用gnuplot打开plot文件对比数值解和解析解
+
+### 26.1.15
+#### 添加了Convection_Diffusion文件，完成了一维对流扩散方程的有限体积法求解
+#### 加入了对流项的迎风格式和中心差分格式
+#### 还需对程序在不同Peclect数下的结果进行测试

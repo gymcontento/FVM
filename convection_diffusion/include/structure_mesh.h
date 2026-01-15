@@ -2,7 +2,7 @@
  * Author: gymcontento herry996341591@gmail.com
  * Date: 2026-01-03 00:42:12
  * LastEditors: gymcontento herry996341591@gmail.com
- * LastEditTime: 2026-01-15 09:36:21
+ * LastEditTime: 2026-01-10 11:06:45
  * FilePath: \FVM\heat_conduction\include\structure_mesh.h
  * Description: 
  * 
@@ -22,7 +22,11 @@ public:
     void CreateMesh(int& dimensions, std::vector<int>& nums);
     void CreateCoordinates(std::vector<std::vector<float>>& irange);
     void CreateFieldMeshData();
+    void SetHeatSource(float& hs);
     void SetInitialT(float& T);
+    void SetInitialUF(float& u);
+    void SetInitialVF(float& v);
+    void SetInitialWF(float& w);
     void CreateCoeffMeshData();
     void CreateSimulationData();
 
@@ -53,11 +57,15 @@ public:
     int id_aP, id_aE, id_aW, id_aN, id_aS, id_aT, id_aB, id_bsrc;
     int numcoef;
     //温度场和速度场（单元界面）
+    std::vector<std::vector<std::vector<float>>> heatsource;
     std::vector<std::vector<std::vector<float>>> t;
     std::vector<std::vector<std::vector<float>>> t0;
     std::vector<std::vector<std::vector<float>>> uf;
     std::vector<std::vector<std::vector<float>>> vf;
-    std::vector<std::vector<std::vector<float>>> wf; 
+    std::vector<std::vector<std::vector<float>>> wf;
+    float initial_uf;
+    float initial_vf;
+    float initial_wf; 
 private:
     int dim;
     std::vector<int> cellnum{0,0,0};

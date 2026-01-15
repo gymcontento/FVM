@@ -16,3 +16,16 @@
 
 /heat_conduction/build
 /heat_conduction/post_temp.vtk
+/heat_conduction/lin.res
+/heat_conduction/nonlin.res
+/heat_conduction/temp_yline.dat
+/heat_conduction/x_pt5.ref
+/heat_conduction/x_pt0833.ref
+
+/convection_diffusion/build
+/convection_diffusion/analytical_temp_x_0.dat
+/convection_diffusion/center_temp_x_upwind.dat
+/convection_diffusion/lin.res
+/convection_diffusion/nonlin.res
+/convection_diffusion/post_temp.vtk
+/convection_diffusion/temp_x_0.dat
