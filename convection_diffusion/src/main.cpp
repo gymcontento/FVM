@@ -2,7 +2,7 @@
  * Author: gymcontento herry996341591@gmail.com
  * Date: 2026-01-03 00:35:43
  * LastEditors: gymcontento herry996341591@gmail.com
- * LastEditTime: 2026-01-16 00:26:11
+ * LastEditTime: 2026-01-17 00:41:19
  * FilePath: \convection_diffusion\src\main.cpp
  * Description: 
  * 
@@ -29,15 +29,15 @@ int main(){
 
     //设置网格参数
     int dim = 2;
-    std::vector<int> cellnums{5,1,1};
+    std::vector<int> cellnums{64,1,1};
     std::vector<std::vector<float>> range = {
         {0.0f, 0.833f}, {0.0f, 1.0f}, {0.0f, 1.0f}};
-    range[0][0] = -0.5f/float(cellnums[0]-1);
+    range[0][0]  = -0.5f/float(cellnums[0]-1);
     range[0][1] = 1.0f + 0.5f/float(cellnums[0]-1);
 
     float heatsource = 0.0f;
     float initialT = 0.5f;
-    float initialUF = 1.0f;
+    float initialUF = 1.0f; //uf
     float initialVF = 0.0f;
     float initialWF = 0.0f;
     
@@ -54,12 +54,12 @@ int main(){
 
     //求解参数设置
     std::string eqn_type = "conduction";
-    std::string conv_scheme = "uw"; //默认upwind "cd" "CD" "pl" "PL" "sou" "SOU"
-    int nlin_steps = 100;          //非线性求解次数
-    float nlinsol_residual = 1.e-6f;        // 非线性迭代的收敛误差判定值
-    int t_iter_nums = 100;           // 温度线性求解器迭代次数
+    std::string conv_scheme = "cd"; //默认upwind "uw" "cd" "CD" "pl" "PL" "sou" "SOU"
+    int nlin_steps = 200;          //非线性求解次数
+    float nlinsol_residual = 1.e-8f;        // 非线性迭代的收敛误差判定值
+    int t_iter_nums = 10000;           // 温度线性求解器迭代次数
     float relax_coef = 0.75f;          // 松弛因子
-    float linsol_residual_t = 0.1f;             // 线性求解器迭代的收敛误差判定值
+    float linsol_residual_t = 0.01f;             // 线性求解器迭代的收敛误差判定值
     SolverSettings solversettings;
     solversettings.SetEqnType(eqn_type);
     solversettings.SetConvScheme(conv_scheme);
@@ -67,6 +67,8 @@ int main(){
     solversettings.SetThermalSolverParam(t_iter_nums, relax_coef,
          linsol_residual_t, nlinsol_residual);
     solversettings.CheckSolverSettings();
+    std::cout << "------------" << "\n";
+    std::cout << "Conv Scheme: " << solversettings.conv_scheme << "\n";
     
     //材料参数设置
     float density{1.0f};
@@ -169,7 +171,8 @@ int main(){
             linearsystem.ConductionCoefsBoud(case1, material, boundary);
             
             //进行雅克比迭代
-            solver.JacobiIteraMethod(i, case1, post, solversettings);
+            // solver.JacobiIteraMethod(i, case1, post, solversettings);
+            solver.GaussSiedelMethod(i, case1, post, solversettings);
 
             //将原来的值更新，这个结果与非线性迭代的收敛误差判定值对比
             std::vector<float> l2_para = solver.CalScalarNorm2(case1, solversettings, "temp");
@@ -215,9 +218,9 @@ int main(){
     }
 
     //针对一维特殊情况做的输出
-    post.WriteVTKCollocated_temp_Pe_L_center(case1, material, solversettings);
-    // post.WriteVTKCollocated_temp_Pe_L(case1, material);
-
+    // post.WriteVTKCollocated_temp_Pe_L_center(case1, material, solversettings);
+    post.WriteVTKCollocated_temp_Pe_L(case1, material);
+    
     clock_t end = clock();
     double duration = double(end - start) / CLOCKS_PER_SEC;
     std::cout << "Elapsed Time: " << 

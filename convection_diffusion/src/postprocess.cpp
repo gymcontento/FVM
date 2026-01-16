@@ -111,7 +111,7 @@ void PostProcess::WriteVTKCollocated_temp_Pe_L(StructureMesh &mesh, MaterialSett
     // Open temperature output files
     if(cellnum[1] == 1){
         std::ostringstream pe_l_filename;
-        pe_l_filename << "temp_x_" << pe_l << ".dat";
+        pe_l_filename << "temp_x_" << static_cast<int>(pe_l) << ".dat";
         std::ofstream _ofs(pe_l_filename.str());
         if (!_ofs.is_open()) {
             std::cerr << "Error: Cannot open file " << pe_l_filename.str() << std::endl;
@@ -122,13 +122,12 @@ void PostProcess::WriteVTKCollocated_temp_Pe_L(StructureMesh &mesh, MaterialSett
         int k = 0;
         for (int i = 0; i < nodenum[0] - 1; i++) {
             double xtemp = (x_nodes[i] + x_nodes[i + 1]) * 0.5;
-            _ofs << std::scientific << std::setprecision(15) 
-                << xtemp << " " << t[i][j][k] << "\n";
+            _ofs << xtemp << " " << t[i][j][k] << "\n";
         } 
         _ofs.close();
 
         std::ostringstream anl_filename;
-        anl_filename << "analytical_temp_x_" << pe_l << ".dat";
+        anl_filename << "analytical_temp_x_" << static_cast<int>(pe_l) << ".dat";
         std::ofstream _ofs_a(anl_filename.str());
         if (!_ofs_a.is_open()) {
             std::cerr << "Error: Cannot open file " << anl_filename.str() << std::endl;
@@ -140,8 +139,7 @@ void PostProcess::WriteVTKCollocated_temp_Pe_L(StructureMesh &mesh, MaterialSett
             // 小Pe_L情况：线性分布 T(x) = x
             for (int i = 0; i < nodenum[0] - 1; i++) {
                 double xtemp = (x_nodes[i] + x_nodes[i + 1]) * 0.5;
-                _ofs_a << std::scientific << std::setprecision(15) 
-                    << xtemp << " " << xtemp << "\n";
+                _ofs_a << xtemp << " " << xtemp << "\n";
             }
         } else {
             // 一般情况：指数分布 T(x) = (exp(Pe_L * x) - 1) / (exp(Pe_L) - 1)
@@ -149,8 +147,7 @@ void PostProcess::WriteVTKCollocated_temp_Pe_L(StructureMesh &mesh, MaterialSett
             for (int i = 0; i < nodenum[0] - 1; i++) {
                 double xtemp = (x_nodes[i] + x_nodes[i + 1]) * 0.5;
                 double result = (std::exp(pe_l * xtemp) - 1.0) / (exp_Pe_L - 1.0);
-                _ofs_a << std::scientific << std::setprecision(15) 
-                    << xtemp << " " << result << "\n";
+                _ofs_a << xtemp << " " << result << "\n";
             }
         }
         
@@ -159,7 +156,7 @@ void PostProcess::WriteVTKCollocated_temp_Pe_L(StructureMesh &mesh, MaterialSett
 
     if(cellnum[0] == 1){
         std::ostringstream pe_l_filename_y;
-        pe_l_filename_y << "temp_y_" << pe_l << ".dat";
+        pe_l_filename_y << "temp_y_" << static_cast<int>(pe_l) << ".dat";
         std::ofstream _ofs_y(pe_l_filename_y.str());
         if (!_ofs_y.is_open()) {
             std::cerr << "Error: Cannot open file " << pe_l_filename_y.str() << std::endl;
@@ -176,7 +173,7 @@ void PostProcess::WriteVTKCollocated_temp_Pe_L(StructureMesh &mesh, MaterialSett
         _ofs_y.close();
 
         std::ostringstream anl_filename_y;
-        anl_filename_y << "analytical_temp_y_" << pe_l << ".dat";
+        anl_filename_y << "analytical_temp_y_" << static_cast<int>(pe_l) << ".dat";
         std::ofstream _ofs_a_y(anl_filename_y.str());
         if (!_ofs_a_y.is_open()) {
             std::cerr << "Error: Cannot open file " << anl_filename_y.str() << std::endl;
@@ -220,7 +217,7 @@ void PostProcess::WriteVTKCollocated_temp_Pe_L_center(StructureMesh &mesh, Mater
     }else{
         pe_l = mesh.initial_uf / material.ConductivityExport();
     }
-    std::cout << "Check Pe_L " << std::scientific << std::setprecision(15) << pe_l << "\n";
+    std::cout << "Check Pe_L " << pe_l << "\n";
 
     int conv_scheme = solversettings.conv_scheme;
     std::cout << "Check conv_scheme " << conv_scheme << "\n";
@@ -230,21 +227,19 @@ void PostProcess::WriteVTKCollocated_temp_Pe_L_center(StructureMesh &mesh, Mater
         outfile_name = "center_temp_x_center.dat";
     }
 
-    std::ofstream _ofs(outfile_name);
+    std::ofstream _ofs(outfile_name, std::ios::app);
     //Write temperature data at center point
     int i = int(nodenum[0]/2) - 1;
     int j{0};
     int k{0};
     if (std::abs(pe_l) < 1.0e-3) {
-        _ofs << std::scientific << std::setprecision(15)
-            << pe_l << " " << t[i][j][k] << " " << 0.5f << "\n";
+        _ofs << pe_l << " " << t[i][j][k] << " " << 0.5f << "\n";
     }else{
         float xtemp = 0.5f;
         float exp_pe_l = std::exp(pe_l);
         float result = (std::exp(pe_l * xtemp) - 1.0f) / (exp_pe_l - 1.0f);
 
-        _ofs << std::scientific << std::setprecision(15)
-          << pe_l << " " << t[i][j][k] << " " << result << "\n";
+        _ofs << pe_l << " " << t[i][j][k] << " " << result << "\n";
     }
 }
 

@@ -19,7 +19,7 @@ class Solver
 {
 public:
     std::vector<float> CalScalarNorm2(StructureMesh& mesh, SolverSettings& solversettings, std::string var);
-    void GaussSiedelMethod();
+    void GaussSiedelMethod(int& nlitera_nums, StructureMesh& mesh, PostProcess& postprocess, SolverSettings& solversettings);
     void JacobiIteraMethod(int& nlitera_nums, StructureMesh& mesh, PostProcess& postprocess, SolverSettings& solversettings);
     bool stop_sim{false};
 };

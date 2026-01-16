@@ -2,7 +2,7 @@
  * @Author: gymcontento herry996341591@gmail.com
  * @Date: 2025-12-28 01:09:24
  * @LastEditors: gymcontento herry996341591@gmail.com
- * @LastEditTime: 2026-01-11 17:39:31
+ * @LastEditTime: 2026-01-17 00:55:40
  * @FilePath: \FVM\README.MD
  * @Description: 
  * 
@@ -50,3 +50,9 @@
 #### 添加了Convection_Diffusion文件，完成了一维对流扩散方程的有限体积法求解
 #### 加入了对流项的迎风格式和中心差分格式
 #### 还需对程序在不同Peclect数下的结果进行测试
+
+### 26.1.16
+#### 在Convection_Diffusion文件Solver中添加了高斯-赛德尔迭代法
+#### 添加了plot文件，方便使用gnuplot进行可视化
+#### 添加了不同Peclet数下程序的测试脚本（Windows）
+#### 验证了不同Peclet数下程序的结果，见pe_uw_result.pdf，结果和解析解一致，结果体现迎风格式的数值耗散特性，相比于解析解，更加早的出现弯曲
