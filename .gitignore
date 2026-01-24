@@ -29,3 +29,7 @@
 /convection_diffusion/nonlin.res
 /convection_diffusion/post_temp.vtk
 /convection_diffusion/temp_x_0.dat
+
+/simple/.vscode
+/simple/build
+
