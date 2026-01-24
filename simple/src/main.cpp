@@ -2,8 +2,8 @@
  * Author: gymcontento herry996341591@gmail.com
  * Date: 2026-01-03 00:35:43
  * LastEditors: gymcontento herry996341591@gmail.com
- * LastEditTime: 2026-01-17 10:47:54
- * FilePath: \FVM\convection_diffusion\src\main.cpp
+ * LastEditTime: 2026-01-24 01:28:33
+ * FilePath: \simple\src\main.cpp
  * Description: 
  * 
  * Copyright (c) 2026 by ${git_name_email}, All Rights Reserved. 
@@ -17,7 +17,7 @@
 #include "assemblesystem.h"
 #include "solver.h"
 #include <ctime>
-#include <vector>
+#include <vector> 
 #include <iomanip>
 #include <map>
 #include <fstream>
@@ -34,32 +34,44 @@ int main(){
         {0.0f, 1.0f}, {0.0f, 1.0f}, {0.0f, 1.0f}};
     // range[0][0]  = -0.5f/float(cellnums[0]-1);
     // range[0][1] = 1.0f + 0.5f/float(cellnums[0]-1);
-
-    float heatsource = 0.0f;
-    float initialT = 0.5f;
-    float initialUF = 1.0f; //uf
-    float initialVF = 0.0f;
-    float initialWF = 0.0f;
     
     StructureMesh case1;
     case1.CreateMesh(dim, cellnums);
     case1.CreateCoordinates(range);
     case1.CreateFieldMeshData();
-    case1.SetHeatSource(heatsource);
-    case1.SetInitialT(initialT);
-    case1.SetInitialUF(initialUF);
-    case1.SetInitialVF(initialVF);
-    case1.SetInitialWF(initialWF);
     case1.CreateCoeffMeshData();
+
+    float initial_t = 0.0;
+    case1.SetInitialT(initial_t);
+    std::vector<float> initial_v{1.0f,2.0f,3.0f};                                
+    case1.SetInitialVelocity(initial_v);
+    case1.SetInitialFaceVelocity(initial_v);
+
+
+    return 0;
 
     //求解参数设置
     std::string eqn_type = "conduction";
     std::string conv_scheme = "cd"; //默认upwind "uw" "cd" "CD" "pl" "PL" "sou" "SOU"
     int nlin_steps = 200;          //非线性求解次数
+    float dt = 10.0f;               //时间步长
     float nlinsol_residual = 1.e-8f;        // 非线性迭代的收敛误差判定值
     int t_iter_nums = 10000;           // 温度线性求解器迭代次数
     float relax_coef = 0.75f;          // 松弛因子
     float linsol_residual_t = 0.01f;             // 线性求解器迭代的收敛误差判定值
+
+    std::vector<int> velocity_iter_nums{5, 5, 5};
+    std::vector<float> velocity_relax{0.75f, 0.75f, 0.75f};
+    std::vector<float> velocity_tol{1.e-4f, 1.e-4f, 1.e-4f};
+    int press_iter_num{200};
+    float press_relax{0.25};
+    float press_tol{1.e-6f};
+    float mass_tol{1.e-6f};   
+    float time_tol{1.e-6f};  
+
+    std::vector<float> sourceterm{0.0f, 0.0f, 0.0f}; //设置保守力场
+    case1.SetSourceTerm(sourceterm); 
+    // case1.SetHeatSource(sourceterm);
     SolverSettings solversettings;
     solversettings.SetEqnType(eqn_type);
     solversettings.SetConvScheme(conv_scheme);
@@ -219,7 +231,7 @@ int main(){
 
     //针对一维特殊情况做的输出
     // post.WriteVTKCollocated_temp_Pe_L_center(case1, material, solversettings);
-    post.WriteVTKCollocated_temp_Pe_L(case1, material);
+    // post.WriteVTKCollocated_temp_Pe_L(case1, material);
     
     clock_t end = clock();
     double duration = double(end - start) / CLOCKS_PER_SEC;

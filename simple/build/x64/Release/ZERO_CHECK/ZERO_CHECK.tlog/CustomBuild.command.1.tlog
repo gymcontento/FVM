@@ -1,0 +1,10 @@
+^E:\CODE\CFD\HOMEWORK\FVM\SIMPLE\BUILD\CMAKEFILES\92B71C98E338EF93472E933819FC57D5\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SE:/Code/CFD/homework/FVM/simple -BE:/Code/CFD/homework/FVM/simple/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file E:/Code/CFD/homework/FVM/simple/build/demo.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
