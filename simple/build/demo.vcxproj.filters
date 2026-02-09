@@ -1,13 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="E:\Code\CFD\homework\FVM\simple\src\main.cpp">
+    <ClCompile Include="E:\Code\CFD\homework\FVM\simple\src\demo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="E:\Code\CFD\homework\FVM\simple\src\structure_mesh.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="E:\Code\CFD\homework\FVM\simple\src\postprocess.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="E:\Code\CFD\homework\FVM\simple\src\solver_settings.cpp">
@@ -19,10 +16,13 @@
     <ClCompile Include="E:\Code\CFD\homework\FVM\simple\src\boundarysettings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="E:\Code\CFD\homework\FVM\simple\src\kernel.cpp">
+    <ClCompile Include="E:\Code\CFD\homework\FVM\simple\src\postprocess.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="E:\Code\CFD\homework\FVM\simple\src\assemblesystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Code\CFD\homework\FVM\simple\src\kernel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="E:\Code\CFD\homework\FVM\simple\src\solver.cpp">

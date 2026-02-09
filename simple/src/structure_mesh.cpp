@@ -246,9 +246,6 @@ void StructureMesh::CreateCoeffMeshData()
         id_aB = 6;
     }
     id_bsrc = numcoef - 1;
-    
-    std::cout << "----------Set Coeff----------" << std::endl;
-    std::cout << "Num of Coefficient: " << numcoef << std::endl;
 
     cellcoeff_u = std::vector<std::vector<std::vector<std::vector<float>>>>(
         cellnum[0], std::vector<std::vector<std::vector<float>>>(cellnum[1],
@@ -265,6 +262,9 @@ void StructureMesh::CreateCoeffMeshData()
     cellcoeff_t = std::vector<std::vector<std::vector<std::vector<float>>>>(
         cellnum[0], std::vector<std::vector<std::vector<float>>>(cellnum[1],
         std::vector<std::vector<float>>(cellnum[2], std::vector<float>(numcoef, 0.0f))));
+    
+    std::cout << "----------Set Coeff Successfully!----------" << std::endl;
+    std::cout << "Num of Coefficient: " << numcoef << std::endl;
 }
 
 

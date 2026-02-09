@@ -6,12 +6,22 @@ project(demo)
 
 include_directories(include)
 
-add_executable(demo src/main.cpp 
-                    src/structure_mesh.cpp 
-                    src/postprocess.cpp
+add_executable(demo src/demo.cpp
+                    src/structure_mesh.cpp
                     src/solver_settings.cpp
                     src/material_settings.cpp
                     src/boundarysettings.cpp
-                    src/kernel.cpp
+                    src/postprocess.cpp
                     src/assemblesystem.cpp
+                    src/kernel.cpp
                     src/solver.cpp)
+
+# add_executable(demo src/main.cpp 
+#                     src/structure_mesh.cpp 
+#                     src/postprocess.cpp
+#                     src/solver_settings.cpp
+#                     src/material_settings.cpp
+#                     src/boundarysettings.cpp
+#                     src/kernel.cpp
+#                     src/assemblesystem.cpp
+#                     src/solver.cpp)

@@ -317,14 +317,14 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="E:\Code\CFD\homework\FVM\simple\src\main.cpp" />
+    <ClCompile Include="E:\Code\CFD\homework\FVM\simple\src\demo.cpp" />
     <ClCompile Include="E:\Code\CFD\homework\FVM\simple\src\structure_mesh.cpp" />
-    <ClCompile Include="E:\Code\CFD\homework\FVM\simple\src\postprocess.cpp" />
     <ClCompile Include="E:\Code\CFD\homework\FVM\simple\src\solver_settings.cpp" />
     <ClCompile Include="E:\Code\CFD\homework\FVM\simple\src\material_settings.cpp" />
     <ClCompile Include="E:\Code\CFD\homework\FVM\simple\src\boundarysettings.cpp" />
-    <ClCompile Include="E:\Code\CFD\homework\FVM\simple\src\kernel.cpp" />
+    <ClCompile Include="E:\Code\CFD\homework\FVM\simple\src\postprocess.cpp" />
     <ClCompile Include="E:\Code\CFD\homework\FVM\simple\src\assemblesystem.cpp" />
+    <ClCompile Include="E:\Code\CFD\homework\FVM\simple\src\kernel.cpp" />
     <ClCompile Include="E:\Code\CFD\homework\FVM\simple\src\solver.cpp" />
   </ItemGroup>
   <ItemGroup>

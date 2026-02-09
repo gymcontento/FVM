@@ -1,9 +1,9 @@
-E:\Code\CFD\homework\FVM\simple\src\main.cpp;E:\Code\CFD\homework\FVM\simple\build\demo.dir\Release\main.obj
+E:\Code\CFD\homework\FVM\simple\src\demo.cpp;E:\Code\CFD\homework\FVM\simple\build\demo.dir\Release\demo.obj
 E:\Code\CFD\homework\FVM\simple\src\structure_mesh.cpp;E:\Code\CFD\homework\FVM\simple\build\demo.dir\Release\structure_mesh.obj
-E:\Code\CFD\homework\FVM\simple\src\postprocess.cpp;E:\Code\CFD\homework\FVM\simple\build\demo.dir\Release\postprocess.obj
 E:\Code\CFD\homework\FVM\simple\src\solver_settings.cpp;E:\Code\CFD\homework\FVM\simple\build\demo.dir\Release\solver_settings.obj
 E:\Code\CFD\homework\FVM\simple\src\material_settings.cpp;E:\Code\CFD\homework\FVM\simple\build\demo.dir\Release\material_settings.obj
 E:\Code\CFD\homework\FVM\simple\src\boundarysettings.cpp;E:\Code\CFD\homework\FVM\simple\build\demo.dir\Release\boundarysettings.obj
-E:\Code\CFD\homework\FVM\simple\src\kernel.cpp;E:\Code\CFD\homework\FVM\simple\build\demo.dir\Release\kernel.obj
+E:\Code\CFD\homework\FVM\simple\src\postprocess.cpp;E:\Code\CFD\homework\FVM\simple\build\demo.dir\Release\postprocess.obj
 E:\Code\CFD\homework\FVM\simple\src\assemblesystem.cpp;E:\Code\CFD\homework\FVM\simple\build\demo.dir\Release\assemblesystem.obj
+E:\Code\CFD\homework\FVM\simple\src\kernel.cpp;E:\Code\CFD\homework\FVM\simple\build\demo.dir\Release\kernel.obj
 E:\Code\CFD\homework\FVM\simple\src\solver.cpp;E:\Code\CFD\homework\FVM\simple\build\demo.dir\Release\solver.obj

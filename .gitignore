@@ -30,6 +30,11 @@
 /convection_diffusion/post_temp.vtk
 /convection_diffusion/temp_x_0.dat
 
-/simple/.vscode
+/simple/.vscode/
 /simple/build
+/simple/lin.res
+/simple/nonlin.res
+/simple/post_pre.vtk
+/simple/post_temp.vtk
+/simple/post_vel.vtk
 

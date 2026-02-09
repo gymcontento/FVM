@@ -2,8 +2,8 @@
  * Author: gymcontento herry996341591@gmail.com
  * Date: 2026-01-05 19:24:41
  * LastEditors: gymcontento herry996341591@gmail.com
- * LastEditTime: 2026-01-09 11:51:15
- * FilePath: \FVM\heat_conduction\include\boundarysettings.h
+ * LastEditTime: 2026-02-03 14:21:39
+ * FilePath: \simple\include\boundarysettings.h
  * Description: 
  * 
  * Copyright (c) 2026 by ${git_name_email}, All Rights Reserved. 
@@ -16,11 +16,17 @@
 class BoundarySettings
 {
 public:
-    struct temp
+    struct vel
     {
-        int bc_t_type = 0;
-        float t_dirichlet = 0.0f;
-        float t_neumann = 0.0f;
+        int u_type = 0;
+        float u_dirichlet = 0.0f;
+        float u_neumann = 0.0f;
+        int v_type = 0;
+        float v_dirichlet = 0.0f;
+        float v_neumann = 0.0f;
+        int w_type = 0;
+        float w_dirichlet = 0.0f;
+        float w_neumann = 0.0f;
     };
 
     void SetBcFacesForCells(StructureMesh& mesh);
@@ -31,20 +37,17 @@ public:
                             const std::string& bc_ymax,
                             const std::string& bc_zmin,
                             const std::string& bc_zmax);
-    void SetNumericalBoundary(StructureMesh& mesh,
-                            std::string& xmin_type, float& xmin_value,
-                            std::string& xmax_type, float& xmax_value,
-                            std::string& ymin_type, float& ymin_value,
-                            std::string& ymax_type, float& ymax_value,
-                            std::string& zmin_type, float& zmin_value,
-                            std::string& zmax_type, float& zmax_value);
+    void SetNumericalBoundary(StructureMesh& mesh, std::vector<std::vector<std::string>>& numerical_bc_type,
+                            std::vector<std::vector<float>>& numerical_bc_value);
     
     void DisplayFluidType();
+    void DisplayNumericalBcType();
+    void DisplayNumericalBcValue();
     
     //输出
     const std::vector<int>& BcPhysicsExport() {return bc_physics;}
     const std::vector<std::vector<std::vector<std::vector<int>>>>& BcidExport() {return bcid;}
-    const std::vector<temp>& BcTempExport() {return bc_temp;}
+    const std::vector<vel>& BcTempExport() {return bc_vel;}
 
     //初始化各个数据
     //每个网格的面，二维有四个面，三维有六个面，为这些面编号
@@ -78,7 +81,7 @@ private:
     int num_bcs = 7;     //这样类型的个数
 
     //温度边界条件设置
-    std::vector<temp> bc_temp; 
+    std::vector<vel> bc_vel; 
 
     //一个单元的边界条件类型和取值
     std::vector<int> bc_type_ocell;
@@ -93,8 +96,8 @@ private:
     float t_b{0.0f};
 
     //温度边界条件类型
-    int t_bc_type_dirichlet = 0;
-    int t_bc_type_neumann = 1;
+    int bc_type_dirichlet = 0;
+    int bc_type_neumann = 1;
 
     //温度边界条件情况
     int t_btype{0};

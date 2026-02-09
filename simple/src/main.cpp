@@ -2,7 +2,7 @@
  * Author: gymcontento herry996341591@gmail.com
  * Date: 2026-01-03 00:35:43
  * LastEditors: gymcontento herry996341591@gmail.com
- * LastEditTime: 2026-01-24 01:28:33
+ * LastEditTime: 2026-02-02 16:47:29
  * FilePath: \simple\src\main.cpp
  * Description: 
  * 
@@ -68,9 +68,9 @@ int main(){
     float press_tol{1.e-6f};
     float mass_tol{1.e-6f};   
     float time_tol{1.e-6f};  
+    std::vector<float> sourceterm{0.0f, 0.0f, 0.0f}; 
 
-    std::vector<float> sourceterm{0.0f, 0.0f, 0.0f}; //设置保守力场
-    case1.SetSourceTerm(sourceterm); 
+    case1.SetSourceTerm(sourceterm); //设置保守力场
     // case1.SetHeatSource(sourceterm);
     SolverSettings solversettings;
     solversettings.SetEqnType(eqn_type);

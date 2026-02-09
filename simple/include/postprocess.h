@@ -2,8 +2,8 @@
  * Author: gymcontento herry996341591@gmail.com
  * Date: 2026-01-04 13:21:22
  * LastEditors: gymcontento herry996341591@gmail.com
- * LastEditTime: 2026-01-16 00:00:33
- * FilePath: \convection_diffusion\include\postprocess.h
+ * LastEditTime: 2026-02-04 17:41:26
+ * FilePath: \simple\include\postprocess.h
  * Description: 
  * 
  * Copyright (c) 2026 by ${git_name_email}, All Rights Reserved. 
@@ -25,7 +25,9 @@ public:
     std::string nonlinsol_fname{"nonlin.res"};
     std::string vtk_fname_temp{"post_temp.vtk"};
 
-    void WriteVTKCollocated_temp(StructureMesh& mesh, std::string filename = "post_temp.vtk");
+    void PostProcess::WriteVTKCollocated_temp(StructureMesh& mesh, std::string filename = "post_temp.vtk");
+    void WriteVTKCollocated_vel(StructureMesh& mesh, std::string filename = "post_vel.vtk");
+    void PostProcess::WriteVTKCollocated_pre(StructureMesh& mesh, std::string filename = "post_pre.vtk");
     // void WriteVTKCollocated_temp_Pe_L(StructureMesh& mesh, MaterialSettings& material);
     // void WriteVTKCollocated_temp_Pe_L_center(StructureMesh& mesh, MaterialSettings& material, SolverSettings& solversettings);
     
